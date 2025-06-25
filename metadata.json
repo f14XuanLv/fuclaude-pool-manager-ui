@@ -1,0 +1,5 @@
+{
+  "name": "FuClaude Pool Manager UI",
+  "description": "A web interface for managing and using a FuClaude Pool Manager worker on Cloudflare.",
+  "requestFramePermissions": []
+}

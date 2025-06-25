@@ -1,0 +1,432 @@
+
+:root {
+    --bg-color: #FFFBF0; /* Creamy Floral White - main page background */
+    --text-color: #5D4037; /* Dark Brown - for general text */
+    --primary-color: #FF7043; /* Deep Orange - for buttons, links, active states */
+    --primary-hover-color: #F4511E; /* Darker Deep Orange - for hover states */
+    --secondary-color: #FFFFFF; /* White - for main content container background */
+    --card-bg-color: #FFF8E1; /* Cornsilk - for sections, cards, modal background */
+    --border-color: #FFE0B2; /* Light Orange/Pale Peach - for subtle borders */
+    --input-bg-color: #FFFFFF; /* White - for input fields */
+    --input-border-color: #FFCC80; /* Lighter Orange - for input borders */
+    --input-focus-border-color: var(--primary-color); /* Orange for focused inputs */
+    --error-color: #D32F2F; /* Softer Red */
+    --success-color: #388E3C; /* Softer Green */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    /* Derived or specific element colors */
+    --hint-text-color: #A1887F; /* Light brown/grey for hints */
+    --info-message-bg: #FFF3E0; /* Light orange for info messages */
+    --info-message-text: var(--text-color);
+    --info-message-border: var(--border-color);
+    --email-card-bg: #FFFFFF;
+    --email-card-border: var(--border-color);
+    --email-card-hover-bg: #FFFDF5;
+    --email-card-hover-border: var(--primary-color);
+    --email-card-hover-shadow: 0 4px 8px rgba(255, 112, 67, 0.15); /* Soft orange shadow */
+    --admin-tab-hover-bg: #FFF5E0; /* Very light orange for tab hover */
+    --table-header-bg: #FFE0B2; /* Light orange for table headers */
+    --table-header-text: var(--primary-color); /* Orange text for table headers */
+    --disabled-bg-color: #F5F5F5;
+    --disabled-text-color: #BDBDBD;
+    --disabled-border-color: #E0E0E0;
+    --modal-overlay-bg: rgba(255, 248, 225, 0.8); /* Semi-transparent Cornsilk */
+    --shadow-color-light: rgba(0, 0, 0, 0.1);
+    --config-panel-bg: var(--card-bg-color);
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color-light);
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo-section .icon {
+    font-size: 2.2rem; /* Adjusted for balance */
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.logo-section h1 {
+    color: var(--primary-color);
+    font-size: 1.6rem; /* Adjusted for balance */
+    margin: 0;
+}
+
+.controls-section {
+    display: flex;
+    align-items: center;
+    min-width: 0; /* Allow shrinking */
+}
+
+.current-worker-url-display {
+    font-size: 0.85em;
+    color: var(--hint-text-color);
+    margin-right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px; /* Increased max-width */
+    flex-shrink: 1; /* Allow shrinking if needed */
+}
+
+
+.config-toggle-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.8rem; /* Larger gear icon */
+    cursor: pointer;
+    padding: 0 5px; /* Minimal padding */
+    line-height: 1; /* Ensure icon aligns well */
+    margin:0; /* Reset margin from default button */
+}
+
+.config-toggle-button:hover {
+    color: var(--primary-hover-color);
+    background: none; /* Override general button hover */
+    box-shadow: none; /* Override general button hover */
+}
+
+
+h1, h2, h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+/* Ensure global H1 (if any outside logo) uses text-color or is more specific */
+h1 { 
+    color: var(--text-color); 
+}
+
+
+.config-panel {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: var(--config-panel-bg);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.config-panel-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start; /* Or flex-end if you prefer */
+}
+
+.config-panel-actions button {
+    margin-top: 0; /* Override general button margin if any was set by mistake */
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.auth-section, .view-section, .admin-action-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 2px rgba(255, 112, 67, 0.2); /* Orange glow on focus */
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    margin-right: 10px;
+}
+button:last-child {
+    margin-right: 0;
+}
+
+
+button:hover {
+    background-color: var(--primary-hover-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:disabled {
+    background-color: var(--disabled-bg-color);
+    color: var(--disabled-text-color);
+    border: 1px solid var(--disabled-border-color);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+button.secondary {
+    background-color: #FFB74D; /* Lighter Orange for secondary */
+    color: var(--text-color);
+}
+button.secondary:hover {
+    background-color: #FFA726; /* Slightly darker Lighter Orange */
+}
+button.secondary:disabled {
+    background-color: var(--disabled-bg-color);
+    color: var(--disabled-text-color);
+    border: 1px solid var(--disabled-border-color);
+}
+
+
+button.danger {
+    background-color: var(--error-color);
+    color: white;
+}
+button.danger:hover {
+    background-color: #C62828; /* Darker Red */
+}
+
+
+.hint, .error-message, .success-message, .info-message {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.hint {
+    color: var(--hint-text-color);
+}
+
+.error-message {
+    color: white;
+    background-color: var(--error-color);
+}
+
+.success-message {
+    color: white;
+    background-color: var(--success-color);
+}
+
+.info-message {
+    background-color: var(--info-message-bg);
+    color: var(--info-message-text);
+    border: 1px solid var(--info-message-border);
+}
+
+.email-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.email-card {
+    background-color: var(--email-card-bg);
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid var(--email-card-border);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.email-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--email-card-hover-shadow);
+    border-color: var(--email-card-hover-border);
+    background-color: var(--email-card-hover-bg);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--modal-overlay-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: 0 5px 15px var(--shadow-color-light);
+    border: 1px solid var(--border-color);
+}
+
+.modal-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+.modal-actions button {
+    margin-left: 10px; /* Add margin between modal buttons */
+    margin-right: 0;
+}
+
+
+.admin-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-tabs button {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-color);
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 0; /* Override button margin */
+    border-radius: 4px 4px 0 0;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.admin-tabs button.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.admin-tabs button:hover:not(.active) {
+    background-color: var(--admin-tab-hover-bg);
+    color: var(--primary-color);
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+    color: var(--text-color);
+}
+
+th {
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-weight: bold;
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    z-index: 2000;
+    box-shadow: 0 2px 8px var(--shadow-color-light);
+}
+
+.toast-success {
+    background-color: var(--success-color);
+}
+
+.toast-error {
+    background-color: var(--error-color);
+}
+
+.refresh-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    margin-left: 10px;
+}
+
+.logout-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+}

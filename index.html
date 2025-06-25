@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuClaude Pool Manager</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔑</text></svg>">
+<script>
+  // This value can be replaced by your deployment process (e.g., Vercel environment variable VITE_WORKER_URL which Vite handles, or direct script injection)
+  // Example: window.__PRECONFIGURED_WORKER_URL__ = "https://my-actual-worker.workers.dev";
+  // If not replaced by a valid URL, the application will check other sources (Vite env vars, localStorage) or use a fallback example URL.
+  window.__PRECONFIGURED_WORKER_URL__ = "%%PLACEHOLDER_WORKER_URL%%";
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
