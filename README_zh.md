@@ -1,19 +1,18 @@
 # FuClaude Pool Manager UI (前端界面)
 
-这是一个前端 Web 应用程序，旨在与 [FuClaude Pool Manager](https://github.com/f14XuanLv/fuclaude-pool-manager) Cloudflare Worker 后端进行交互。它为最终用户登录 Claude 实例以及管理员管理账户池提供了一个用户友好的界面。
+这是一个前端 Web 应用程序，旨在与 [FuClaude Pool Manager](https://github.com/f14XuanLv/fuclaude-pool-manager) Cloudflare Worker 后端进行交互。
+
+它为最终用户登录 Claude 实例以及管理员管理账户池提供了一个用户友好的界面。
+
+- **后端项目**: [https://github.com/f14XuanLv/fuclaude-pool-manager](https://github.com/f14XuanLv/fuclaude-pool-manager)
 
 本项目使用 React 和 TypeScript 构建，结构适用于 [Vite](https://vitejs.dev/)作为构建工具。
 
 ## 一键部署
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ff14XuanLv%2Ffuclaude-pool-manager-ui&env=VITE_WORKER_URL&envDescription=Enter%20your%20FuClaude%20Pool%20Manager%20Worker%20URL%20(e.g.,%20https%3A%2F%2Fname.account.workers.dev)&project-name=fuclaude-pool-ui&repository-name=fuclaude-pool-manager-ui)
-[![Deploy to Cloudflare Pages](https://img.shields.io/badge/deploy%20to-Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://dash.cloudflare.com/?to=/:account/pages/new)
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.StaticApp)
 
-**重要提示:** 开始部署后，请确保在您选择的平台上配置 `VITE_WORKER_URL` 环境变量：
-*   **Vercel:** 在设置过程中，系统会提示您输入 `VITE_WORKER_URL`。
-*   **Cloudflare Pages:** 连接您的仓库后，进入项目的 "设置 (Settings)" -> "环境变量 (Environment variables)" -> "生产 (Production)" 并添加 `VITE_WORKER_URL`。
-*   **Azure Static Web Apps (静态 Web 应用):** 创建资源并连接仓库后，进入 "配置 (Configuration)" -> "应用程序设置 (Application settings)" 并添加 `VITE_WORKER_URL`。
+**重要提示:** 使用 Vercel 部署时，在设置过程中系统会提示您输入 `VITE_WORKER_URL` 环境变量。
 
 请使用以下模板作为 `VITE_WORKER_URL` 的值： `https://<your-worker-name>.<your-account-id>.workers.dev`
 

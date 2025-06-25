@@ -11,11 +11,8 @@ This project is built with React and TypeScript, structured for use with [Vite](
 ## Quick Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ff14XuanLv%2Ffuclaude-pool-manager-ui&env=VITE_WORKER_URL&envDescription=Enter%20your%20FuClaude%20Pool%20Manager%20Worker%20URL%20(e.g.,%20https%3A%2F%2Fname.account.workers.dev)&project-name=fuclaude-pool-ui&repository-name=fuclaude-pool-manager-ui)
-<a href="https://deploy.cloudflare.com/?url=https://github.com/f14XuanLv/fuclaude-pool-manager-ui&env=VITE_WORKER_URL" target="_blank">
-  <img src="https://img.shields.io/badge/deploy%20to-Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white" alt="Deploy to Cloudflare Pages"/>
-</a>
 
-**Important:** After initiating deployment, ensure you configure the `VITE_WORKER_URL` environment variable on your chosen platform. You will be prompted for this value during the setup process.
+**Important:** When deploying with Vercel, you will be prompted to enter the `VITE_WORKER_URL` environment variable during the setup process.
 
 Use the following template for the `VITE_WORKER_URL` value: `https://<your-worker-name>.<your-account-id>.workers.dev`
 
