@@ -430,3 +430,38 @@ th {
     margin-left: 10px;
     padding: 5px 10px;
 }
+
+/* Footer Styles */
+.main-footer {
+  padding: 1rem;
+  text-align: center;
+  color: #666;
+  border-top: 1px solid #eaeaea;
+  margin-top: auto; /* Pushes footer to the bottom */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.main-footer a {
+  color: #555;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.main-footer a:hover {
+  color: #000;
+}
+
+.github-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.footer-separator {
+  color: #ccc;
+}

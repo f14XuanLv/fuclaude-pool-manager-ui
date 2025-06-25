@@ -1,6 +1,10 @@
 # FuClaude Pool Manager UI
 
-This is a frontend web application designed to interact with the [FuClaude Pool Manager](https://github.com/f14XuanLv/fuclaude-pool-manager) Cloudflare Worker backend. It provides a user-friendly interface for both end-users to log in to Claude instances and for administrators to manage the pool of accounts.
+This is a frontend web application designed to interact with the [FuClaude Pool Manager](https://github.com/f14XuanLv/fuclaude-pool-manager) Cloudflare Worker backend.
+
+It provides a user-friendly interface for both end-users to log in to Claude instances and for administrators to manage the pool of accounts.
+
+- **Backend Project**: [https://github.com/f14XuanLv/fuclaude-pool-manager](https://github.com/f14XuanLv/fuclaude-pool-manager)
 
 This project is built with React and TypeScript, structured for use with [Vite](https://vitejs.dev/) as the build tool.
 
