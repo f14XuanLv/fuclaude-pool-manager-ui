@@ -4,6 +4,7 @@ import { ToastProvider, ToastContext } from './contexts/ToastContext';
 import UserView from './views/UserView';
 import AdminView from './views/AdminView';
 import ConfigPanel from './components/ConfigPanel';
+import LoadingIndicator from './components/LoadingIndicator';
 
 const AppContent: React.FC = () => {
   const [currentView, setCurrentView] = useState<'user' | 'admin'>('user');
@@ -30,7 +31,21 @@ const AppContent: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  if (!workerUrlCtx) return <div>Loading configuration...</div>; // Should not happen if provider is set up
+  if (!workerUrlCtx || workerUrlCtx.workerUrl === null) {
+    return (
+        <div className="app-container">
+            <header className="main-header">
+                <div className="logo-section">
+                    <span className="icon" role="img" aria-label="key icon">🔑</span>
+                    <h1>FuClaude Pool Manager</h1>
+                </div>
+            </header>
+            <main className="view-section" style={{textAlign: 'center'}}>
+                <LoadingIndicator message="正在加载配置..." />
+            </main>
+        </div>
+    );
+  }
   const { workerUrl } = workerUrlCtx;
 
 

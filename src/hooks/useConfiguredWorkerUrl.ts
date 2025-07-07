@@ -4,31 +4,22 @@ import { useState, useEffect } from 'react';
 const EXAMPLE_WORKER_URL = 'https://<your-worker-name>.<your-account-id>.workers.dev';
 
 const useConfiguredWorkerUrl = () => {
-  const [determinedInitialUrl, setDeterminedInitialUrl] = useState<string>(EXAMPLE_WORKER_URL);
+  // Start with null, indicating the URL is not yet determined.
+  const [determinedInitialUrl, setDeterminedInitialUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    let urlToUse = EXAMPLE_WORKER_URL;
-
     // 1. Check localStorage (user override)
     const storedUrl = localStorage.getItem('workerUrl');
-    // Only use storedUrl if it's not null and not the placeholder example URL
     if (storedUrl && storedUrl !== EXAMPLE_WORKER_URL) {
-      urlToUse = storedUrl;
-      setDeterminedInitialUrl(urlToUse);
+      setDeterminedInitialUrl(storedUrl);
       return;
     }
 
     // 2. Check Vite environment variable (VITE_WORKER_URL)
-    // Safely access import.meta.env
-    let viteEnvUrl: string | undefined = undefined;
-    if (typeof import.meta !== 'undefined' && import.meta.env) {
-      viteEnvUrl = import.meta.env.VITE_WORKER_URL;
-    }
-
+    const viteEnvUrl = import.meta.env.VITE_WORKER_URL;
     if (viteEnvUrl && (viteEnvUrl.startsWith('http://') || viteEnvUrl.startsWith('https://'))) {
-      urlToUse = viteEnvUrl;
-      setDeterminedInitialUrl(urlToUse);
-      localStorage.setItem('workerUrl', urlToUse); // Persist if found via env var and not in local storage
+      setDeterminedInitialUrl(viteEnvUrl);
+      localStorage.setItem('workerUrl', viteEnvUrl); // Persist if found
       return;
     }
 
@@ -39,17 +30,15 @@ const useConfiguredWorkerUrl = () => {
       preconfiguredUrlFromWindow !== '%%PLACEHOLDER_WORKER_URL%%' &&
       (preconfiguredUrlFromWindow.startsWith('http://') || preconfiguredUrlFromWindow.startsWith('https://'))
     ) {
-      urlToUse = preconfiguredUrlFromWindow;
-      setDeterminedInitialUrl(urlToUse);
-      localStorage.setItem('workerUrl', urlToUse); // Persist if found via window and not in local storage
+      setDeterminedInitialUrl(preconfiguredUrlFromWindow);
+      localStorage.setItem('workerUrl', preconfiguredUrlFromWindow); // Persist if found
       return;
     }
     
-    // If fallback to EXAMPLE_WORKER_URL is used and nothing is in localStorage, set it.
-    if (urlToUse === EXAMPLE_WORKER_URL && !localStorage.getItem('workerUrl')) {
-        localStorage.setItem('workerUrl', urlToUse);
-    }
-    setDeterminedInitialUrl(urlToUse);
+    // 4. If nothing is found, set it to the example URL so the user can configure it.
+    setDeterminedInitialUrl(EXAMPLE_WORKER_URL);
+    // Also save the example to local storage so it doesn't run this logic again.
+    localStorage.setItem('workerUrl', EXAMPLE_WORKER_URL);
 
   }, []); // Runs once on mount
 

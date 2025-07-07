@@ -8,11 +8,13 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import { generateRandomId } from '../utils/randomId';
 import { ToastContext } from '../contexts/ToastContext';
 import { API_PATHS } from '../utils/apiConstants';
+import { WorkerUrlContext } from '../contexts/WorkerUrlContext';
 
 const UserView: React.FC = () => {
   const { callApi: fetchEmails, data: emailsData, isLoading: emailsLoading, error: emailsError } = useApi<undefined, { emails: string[] }>();
-  const { callApi: loginApi, isLoading: loginLoading } = useApi<LoginPayload, LoginResponse>(); // Removed loginError as useApi handles toast
+  const { callApi: loginApi, isLoading: loginLoading } = useApi<LoginPayload, LoginResponse>();
   const toastCtx = useContext(ToastContext);
+  const workerUrlCtx = useContext(WorkerUrlContext);
 
   const [emails, setEmails] = useState<string[]>([]);
   const [showUniqueNameModal, setShowUniqueNameModal] = useState<boolean>(false);
@@ -21,16 +23,18 @@ const UserView: React.FC = () => {
   const [expiresIn, setExpiresIn] = useState<string>(''); // Use string to handle empty input
 
   useEffect(() => {
-    fetchEmails(API_PATHS.GET_EMAILS)
-      .then(data => {
-        if (data?.emails) setEmails(data.emails);
-      })
-      .catch(() => {
-        // Error is already handled by useApi hook and displayed via toast
-        // emailsError state will be set by useApi
-        setEmails([]); // Keep emails empty on error
-      });
-  }, [fetchEmails]);
+    // Only fetch emails if the workerUrl is set and valid
+    if (workerUrlCtx?.workerUrl) {
+      fetchEmails(API_PATHS.GET_EMAILS)
+        .then(data => {
+          if (data?.emails) setEmails(data.emails);
+        })
+        .catch(() => {
+          // Error is handled by useApi hook
+          setEmails([]);
+        });
+    }
+  }, [fetchEmails, workerUrlCtx?.workerUrl]);
   
   const handleLogin = async (mode: 'random' | 'specific', email?: string, uniqueNameVal?: string, expiresInVal?: string) => {
     if (!toastCtx) return;

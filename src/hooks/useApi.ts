@@ -28,6 +28,13 @@ function useApi<T = any, R = any>() {
 
   const callApi = useCallback(
     async (endpoint: string, method: string = 'GET', body?: T): Promise<R> => {
+      if (!workerUrl) {
+        const err = new Error("Worker URL is not configured yet.");
+        setApiState({ data: null, isLoading: false, error: err.message });
+        // Do not show toast here, as this is an expected initial state
+        return Promise.reject(err);
+      }
+
       setApiState({ data: null, isLoading: true, error: null });
       const url = `${workerUrl.replace(/\/$/, '')}${endpoint}`;
       const headers: HeadersInit = { 'Content-Type': 'application/json' };

@@ -3,8 +3,8 @@ import React, { createContext, useState, ReactNode, Dispatch, SetStateAction, us
 import useConfiguredWorkerUrl from '../hooks/useConfiguredWorkerUrl';
 
 interface WorkerUrlContextType {
-  workerUrl: string;
-  setWorkerUrl: Dispatch<SetStateAction<string>>; // Technically, this will be our custom setter
+  workerUrl: string | null; // Allow null
+  setWorkerUrl: (url: string) => void;
   exampleWorkerUrl: string;
 }
 
@@ -12,26 +12,18 @@ export const WorkerUrlContext = createContext<WorkerUrlContextType | undefined>(
 
 export const WorkerUrlProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { initialWorkerUrl, exampleWorkerUrl } = useConfiguredWorkerUrl();
-  const [currentWorkerUrl, setCurrentWorkerUrl] = useState<string>(initialWorkerUrl);
+  const [currentWorkerUrl, setCurrentWorkerUrl] = useState<string | null>(initialWorkerUrl);
 
-  // Update context state if the initialWorkerUrl (determined by the hook) changes after mount
-  // This can happen if localStorage had a different value initially than what hook determined later
   useEffect(() => {
-    setCurrentWorkerUrl(initialWorkerUrl);
+    if (initialWorkerUrl) {
+      setCurrentWorkerUrl(initialWorkerUrl);
+    }
   }, [initialWorkerUrl]);
 
-  const handleSetWorkerUrl = (newUrlOrUpdater: SetStateAction<string>) => {
-    setCurrentWorkerUrl(prevUrl => {
-      const newUrl = typeof newUrlOrUpdater === 'function' ? newUrlOrUpdater(prevUrl) : newUrlOrUpdater;
-      if (newUrl.trim() === '') {
-        // Potentially show a toast or handle error, but for now, prevent setting empty URL
-        // Or default to exampleWorkerUrl
-        localStorage.setItem('workerUrl', exampleWorkerUrl);
-        return exampleWorkerUrl;
-      }
-      localStorage.setItem('workerUrl', newUrl);
-      return newUrl;
-    });
+  const handleSetWorkerUrl = (newUrl: string) => {
+    const urlToSet = newUrl.trim() === '' ? exampleWorkerUrl : newUrl;
+    localStorage.setItem('workerUrl', urlToSet);
+    setCurrentWorkerUrl(urlToSet);
   };
 
   return (
