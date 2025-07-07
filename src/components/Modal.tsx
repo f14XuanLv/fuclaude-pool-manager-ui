@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useRef } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,13 +8,29 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+  const mouseDownTarget = useRef<EventTarget | null>(null);
+
   if (!isOpen) return null;
 
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    mouseDownTarget.current = e.target;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget && mouseDownTarget.current === e.target) {
+      onClose();
+    }
+    mouseDownTarget.current = null;
+  };
+
   return (
-    <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div
+      className="modal-overlay"
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    >
       <div
         className="modal-content"
-        onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-labelledby="modal-title"
         aria-modal="true"
