@@ -465,3 +465,99 @@ th {
 .footer-separator {
   color: #ccc;
 }
+
+/* Account Management Tab Styles */
+.account-management-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.account-management-controls .search-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    font-size: 0.95rem;
+}
+
+.account-management-controls button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.account-table {
+    display: grid;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.account-table-header,
+.account-table-row {
+    display: grid;
+    grid-template-columns: 20px 1fr 2fr 120px; /* Checkbox, Email, SK, Actions */
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.account-table-row:last-child {
+    border-bottom: none;
+}
+
+.account-table-header {
+    background-color: var(--table-header-bg);
+    font-weight: bold;
+    color: var(--table-header-text);
+    padding-left: 10px; /* Align with content */
+}
+
+.account-table-row input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.account-table-row input[type="text"]:disabled {
+    color: var(--text-color);
+    cursor: default;
+}
+
+.account-table-row input[type="text"]:not(:disabled) {
+    border-color: var(--input-focus-border-color);
+    background-color: var(--input-bg-color);
+}
+
+.account-table-row input[type="text"]:focus {
+    white-space: normal;
+    overflow: visible;
+}
+
+.account-table-row .action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.account-table-row .action-buttons button {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+}
+
+.add-new-row {
+    background-color: #fdfaf3;
+}
+
+.add-new-row .action-buttons button {
+    font-size: 1.2rem;
+    padding: 2px 10px;
+}

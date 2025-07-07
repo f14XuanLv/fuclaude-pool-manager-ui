@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type AdminTabKey = 'manage' | 'batch_add' | 'batch_delete';
+export type AdminTabKey = 'manage' | 'batch_add';
 
 interface AdminTabsProps {
   activeTab: AdminTabKey;
@@ -10,7 +10,6 @@ interface AdminTabsProps {
 const tabLabels: Record<AdminTabKey, string> = {
   manage: '账户管理',
   batch_add: '批量添加',
-  batch_delete: '批量删除',
 };
 
 const AdminTabs: React.FC<AdminTabsProps> = ({ activeTab, onTabChange }) => {

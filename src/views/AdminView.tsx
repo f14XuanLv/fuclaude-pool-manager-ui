@@ -3,7 +3,6 @@ import AdminLoginForm from '../components/admin/AdminLoginForm';
 import AdminTabs, { AdminTabKey } from '../components/admin/AdminTabs';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import AdminBatchAddTab from '../components/admin/AdminBatchAddTab';
-import AdminBatchDeleteTab from '../components/admin/AdminBatchDeleteTab';
 import AccountManagementTab from '../components/admin/AccountManagementTab';
 
 const AdminView: React.FC = () => {
@@ -36,7 +35,6 @@ const AdminView: React.FC = () => {
       <AdminTabs activeTab={activeTab} onTabChange={setActiveTab} />
       {activeTab === 'manage' && <AccountManagementTab />}
       {activeTab === 'batch_add' && <AdminBatchAddTab onActionSuccess={() => setActiveTab('manage')} />}
-      {activeTab === 'batch_delete' && <AdminBatchDeleteTab onActionSuccess={() => setActiveTab('manage')} />}
     </main>
   );
 };
