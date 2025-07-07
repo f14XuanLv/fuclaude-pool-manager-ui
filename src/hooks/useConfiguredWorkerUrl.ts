@@ -7,6 +7,13 @@ const useConfiguredWorkerUrl = () => {
   const [determinedInitialUrl, setDeterminedInitialUrl] = useState<string>(EXAMPLE_WORKER_URL);
 
   useEffect(() => {
+    // --- DEBUGGING START ---
+    console.log(
+      'VITE_WORKER_URL from import.meta.env:',
+      import.meta.env.VITE_WORKER_URL
+    );
+    // --- DEBUGGING END ---
+
     let urlToUse = EXAMPLE_WORKER_URL;
 
     // 1. Check localStorage (user override)
