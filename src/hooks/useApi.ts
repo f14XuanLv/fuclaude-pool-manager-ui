@@ -27,38 +27,10 @@ function useApi<T = any, R = any>() {
   });
 
   const callApi = useCallback(
-    async (endpoint: string, method: string = 'GET', body?: T, adminPassword?: string, isAdminGetList: boolean = false): Promise<R> => {
+    async (endpoint: string, method: string = 'GET', body?: T): Promise<R> => {
       setApiState({ data: null, isLoading: true, error: null });
-      let url = `${workerUrl.replace(/\/$/, '')}${endpoint}`;
+      const url = `${workerUrl.replace(/\/$/, '')}${endpoint}`;
       const headers: HeadersInit = { 'Content-Type': 'application/json' };
-      
-      // For GET /api/admin/list, adminPassword is a query parameter
-      if (isAdminGetList && endpoint.startsWith('/api/admin/list') && method === 'GET') {
-        if (!adminPassword) {
-            const err = new Error("管理员密码未设置 (for list)");
-            setApiState({ data: null, isLoading: false, error: err.message });
-            showToast(err.message, "error");
-            throw err;
-        }
-        url += `?admin_password=${encodeURIComponent(adminPassword)}`;
-      } 
-      // For other admin non-GET requests, check if adminPassword is provided (it should be part of the body by calling components now)
-      else if (endpoint.startsWith('/api/admin/') && method !== 'GET') {
-        if (!adminPassword) { // This is an upfront check. The password should be in `body`.
-            const err = new Error("管理员密码未设置为参数 (for action)");
-            setApiState({ data: null, isLoading: false, error: err.message });
-            showToast(err.message, "error");
-            throw err;
-        }
-        // The admin_password is now expected to be part of the `body` by the calling component,
-        // as per the stricter types (e.g., AdminAddPayload now requires admin_password).
-        // So, no need to inject it here:
-        // if (body && typeof body === 'object' && !(body as any).admin_password) {
-        //   (body as any).admin_password = adminPassword; // No longer needed
-        // } else if (!body && adminPassword) {
-        //   body = { admin_password: adminPassword } as T; // No longer needed
-        // }
-      }
 
       try {
         const response = await fetch(url, {
@@ -81,7 +53,7 @@ function useApi<T = any, R = any>() {
     [workerUrl, showToast]
   );
 
-  return { ...apiState, callApi, clearError: () => setApiState(prev => ({...prev, error: null})) };
+  return { ...apiState, callApi, clearError: () => setApiState((prev: ApiState<R>) => ({...prev, error: null})) };
 }
 
 export default useApi;

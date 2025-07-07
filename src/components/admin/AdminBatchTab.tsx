@@ -2,6 +2,7 @@
 import React, { useState, FormEvent, useContext } from 'react';
 import useApi from '../../hooks/useApi';
 import { AdminBatchPayload, AdminBatchApiResponse, AdminBatchAction, AdminBatchResultItem } from '../../types';
+import { API_PATHS } from '../../utils/apiConstants';
 import LoadingIndicator from '../LoadingIndicator';
 import { ToastContext } from '../../contexts/ToastContext';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
@@ -44,7 +45,7 @@ const AdminBatchTab: React.FC<AdminBatchTabProps> = ({ onActionSuccess }) => {
 
     try {
       const payload: AdminBatchPayload = { actions: parsedActions, admin_password: adminPassword };
-      const data = await callApi('/api/admin/batch', 'POST', payload, adminPassword);
+      const data = await callApi(API_PATHS.ADMIN_BATCH, 'POST', payload);
       toastCtx.showToast(data.message, "success");
       setBatchResults(data.results || []);
       setBatchJson('');

@@ -2,6 +2,7 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import useApi from '../../hooks/useApi';
 import { EmailSkMapEntry } from '../../types';
+import { API_PATHS } from '../../utils/apiConstants';
 import LoadingIndicator from '../LoadingIndicator';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
 
@@ -15,8 +16,8 @@ const AdminListTab: React.FC<AdminListTabProps> = ({ refreshKey }) => {
 
   const fetchAdminSkList = useCallback(async () => {
     if (!adminPassword) return;
-    // For GET /api/admin/list, adminPassword is the 4th arg (for query param), 5th arg (isAdminGetList) is true
-    await callApi('/api/admin/list', 'GET', null, adminPassword, true);
+    const urlWithAuth = `${API_PATHS.ADMIN_LIST}?admin_password=${encodeURIComponent(adminPassword)}`;
+    await callApi(urlWithAuth, 'GET');
   }, [callApi, adminPassword]);
 
   useEffect(() => {

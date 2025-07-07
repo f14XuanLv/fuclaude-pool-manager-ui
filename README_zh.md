@@ -1,5 +1,12 @@
 # FuClaude Pool Manager UI (前端界面)
 
+<div align="center">
+
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.1.1-blue?style=for-the-badge)](https://github.com/f14XuanLv/fuclaude-pool-manager-ui)
+
+</div>
+
 这是一个前端 Web 应用程序，旨在与 [FuClaude Pool Manager](https://github.com/f14XuanLv/fuclaude-pool-manager) Cloudflare Worker 后端进行交互。
 
 它为最终用户登录 Claude 实例以及管理员管理账户池提供了一个用户友好的界面。
@@ -21,6 +28,7 @@
 *   **用户界面:**
     *   **随机登录:** 允许用户使用池中随机选择的账户快速获取登录 URL。
     *   **特定账户登录:** 列出可用的电子邮件账户。用户可以选择一个账户并提供唯一的会话标识符进行登录。
+    *   **令牌有效期:** 用户在登录时可以指定期望的令牌有效时间（秒）。
     *   如果会话标识符留空，会自动生成随机标识符。
 *   **管理员界面 (`/admin` 路径):**
     *   密码保护。
@@ -59,7 +67,7 @@
 3.  **配置 Worker URL (开发环境):**
     *   本地开发最简单的方式是在项目根目录创建一个 `.env.local` 文件：
         ```env
-        VITE_WORKER_URL=https://your-dev-worker.workers.dev
+        VITE_WORKER_URL=http://localhost:8787
         ```
         将 URL 替换为您的实际开发 Worker URL。Vite 会自动加载此文件。
     *   或者，您可以在启动应用程序后通过 UI 进行配置。

@@ -3,12 +3,8 @@ import React, { useState, useContext } from 'react';
 import AdminLoginForm from '../components/admin/AdminLoginForm';
 import AdminTabs, { AdminTabKey } from '../components/admin/AdminTabs';
 import AdminListTab from '../components/admin/AdminListTab';
-import AdminAddTab from '../components/admin/AdminAddTab';
-import AdminUpdateTab from '../components/admin/AdminUpdateTab';
-import AdminDeleteTab from '../components/admin/AdminDeleteTab';
 import AdminBatchTab from '../components/admin/AdminBatchTab';
 import { useAdminAuth } from '../hooks/useAdminAuth';
-// ToastContext import removed as it's not directly used here
 
 const AdminView: React.FC = () => {
   const { isAdminAuthenticated, logout } = useAdminAuth();
@@ -45,9 +41,6 @@ const AdminView: React.FC = () => {
       </div>
       <AdminTabs activeTab={activeTab} onTabChange={setActiveTab} />
       {activeTab === 'list' && <AdminListTab refreshKey={refreshKey} />}
-      {activeTab === 'add' && <AdminAddTab onActionSuccess={handleActionSuccess} />}
-      {activeTab === 'update' && <AdminUpdateTab onActionSuccess={handleActionSuccess} />}
-      {activeTab === 'delete' && <AdminDeleteTab onActionSuccess={handleActionSuccess} />}
       {activeTab === 'batch' && <AdminBatchTab onActionSuccess={handleActionSuccess} />}
     </main>
   );

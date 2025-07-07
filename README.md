@@ -1,5 +1,12 @@
 # FuClaude Pool Manager UI
 
+<div align="center">
+
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.1.1-blue?style=for-the-badge)](https://github.com/f14XuanLv/fuclaude-pool-manager-ui)
+
+</div>
+
 This is a frontend web application designed to interact with the [FuClaude Pool Manager](https://github.com/f14XuanLv/fuclaude-pool-manager) Cloudflare Worker backend.
 
 It provides a user-friendly interface for both end-users to log in to Claude instances and for administrators to manage the pool of accounts.
@@ -21,6 +28,7 @@ Use the following template for the `VITE_WORKER_URL` value: `https://<your-worke
 *   **User Interface:**
     *   **Random Login:** Allows users to quickly get a login URL using a randomly selected account from the pool.
     *   **Specific Account Login:** Lists available email accounts. Users can select an account and provide a unique session identifier to log in.
+    *   **Token Expiration:** Users can specify a desired token expiration time in seconds when logging in.
     *   Random session identifier generation if left blank.
 *   **Admin Interface (`/admin` path):**
     *   Password protected.
@@ -59,7 +67,7 @@ Use the following template for the `VITE_WORKER_URL` value: `https://<your-worke
 3.  **Configure Worker URL (Development):**
     *   The easiest way for local development is to create a `.env.local` file in the project root:
         ```env
-        VITE_WORKER_URL=https://your-dev-worker.workers.dev
+        VITE_WORKER_URL=http://localhost:8787
         ```
         Replace the URL with your actual development worker URL. Vite will automatically pick this up.
     *   Alternatively, you can configure it via the UI after starting the app.
@@ -118,7 +126,7 @@ The application determines the `WORKER_URL` in the following order of precedence
 
 *   **User View (Default):**
     *   Access the application by navigating to its root URL.
-    *   Use the "随机登录" (Random Login) button or select a specific email account.
+    *   Use the "Random Login" button or select a specific email account.
 *   **Admin View:**
     *   Navigate to the `/admin` path of your frontend's URL.
     *   Enter your admin password. The admin password for API calls is now included by each admin action component directly in the request payload.

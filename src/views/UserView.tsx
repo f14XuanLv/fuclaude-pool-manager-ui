@@ -7,6 +7,7 @@ import Modal from '../components/Modal';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { generateRandomId } from '../utils/randomId';
 import { ToastContext } from '../contexts/ToastContext';
+import { API_PATHS } from '../utils/apiConstants';
 
 const UserView: React.FC = () => {
   const { callApi: fetchEmails, data: emailsData, isLoading: emailsLoading, error: emailsError } = useApi<undefined, { emails: string[] }>();
@@ -17,9 +18,10 @@ const UserView: React.FC = () => {
   const [showUniqueNameModal, setShowUniqueNameModal] = useState<boolean>(false);
   const [selectedEmailForLogin, setSelectedEmailForLogin] = useState<string | null>(null);
   const [uniqueName, setUniqueName] = useState<string>('');
+  const [expiresIn, setExpiresIn] = useState<string>(''); // Use string to handle empty input
 
   useEffect(() => {
-    fetchEmails('/api/emails')
+    fetchEmails(API_PATHS.GET_EMAILS)
       .then(data => {
         if (data?.emails) setEmails(data.emails);
       })
@@ -30,7 +32,7 @@ const UserView: React.FC = () => {
       });
   }, [fetchEmails]);
   
-  const handleLogin = async (mode: 'random' | 'specific', email?: string, uniqueNameVal?: string) => {
+  const handleLogin = async (mode: 'random' | 'specific', email?: string, uniqueNameVal?: string, expiresInVal?: string) => {
     if (!toastCtx) return;
     const payload: LoginPayload = { mode };
     if (mode === 'specific') {
@@ -42,9 +44,18 @@ const UserView: React.FC = () => {
       payload.unique_name = uniqueNameVal;
     }
 
+    const expiresInNum = expiresInVal ? parseInt(expiresInVal, 10) : undefined;
+    if (expiresInNum !== undefined && !isNaN(expiresInNum)) {
+        payload.expires_in = expiresInNum;
+    }
+
+
     try {
-      const data = await loginApi('/api/login', 'POST', payload);
+      const data = await loginApi(API_PATHS.LOGIN, 'POST', payload);
       if (data?.login_url) {
+        if (data.warning) {
+          toastCtx.showToast(data.warning, 'success'); // Show warning as a success/info toast
+        }
         window.location.href = data.login_url;
       } else {
         toastCtx.showToast("未能获取登录链接。", "error");
@@ -64,9 +75,10 @@ const UserView: React.FC = () => {
 
   const handleSpecificLoginSubmit = () => {
     if (selectedEmailForLogin && uniqueName) {
-      handleLogin('specific', selectedEmailForLogin, uniqueName);
+      handleLogin('specific', selectedEmailForLogin, uniqueName, expiresIn);
       setShowUniqueNameModal(false);
-      setUniqueName(''); // Clear after attempting login
+      setUniqueName('');
+      setExpiresIn('');
     } else {
       toastCtx?.showToast("请输入有效的隔离标识。", "error");
     }
@@ -100,7 +112,7 @@ const UserView: React.FC = () => {
 
       <Modal
         isOpen={showUniqueNameModal}
-        onClose={() => { setShowUniqueNameModal(false); setUniqueName(''); }}
+        onClose={() => { setShowUniqueNameModal(false); setUniqueName(''); setExpiresIn(''); }}
         title="输入会话隔离标识"
       >
         <p>为账户 <strong>{selectedEmailForLogin}</strong> 设置一个唯一的会话标识。</p>
@@ -119,11 +131,25 @@ const UserView: React.FC = () => {
             此标识用于区分同一账户下的不同会话，请确保其唯一性。可使用系统生成的随机值。
           </p>
         </div>
+        <div className="form-group">
+            <label htmlFor="expiresInInput">令牌有效期 (秒):</label>
+            <input
+                type="number"
+                id="expiresInInput"
+                value={expiresIn}
+                onChange={(e) => setExpiresIn(e.target.value)}
+                placeholder="留空则使用默认设置"
+                aria-describedby="expiresInHint"
+            />
+            <p className="hint" id="expiresInHint">
+                可选。指定登录令牌的有效时间（秒）。会被管理员设置的最大值限制。
+            </p>
+        </div>
         <div className="modal-actions">
           <button onClick={handleSpecificLoginSubmit} disabled={isLoading || !uniqueName.trim()}>
             {isLoading ? '登录中...' : '登录'}
           </button>
-          <button onClick={() => { setShowUniqueNameModal(false); setUniqueName(''); }} className="secondary" disabled={isLoading}>
+          <button onClick={() => { setShowUniqueNameModal(false); setUniqueName(''); setExpiresIn(''); }} className="secondary" disabled={isLoading}>
             取消
           </button>
         </div>

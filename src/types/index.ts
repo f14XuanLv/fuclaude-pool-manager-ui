@@ -27,34 +27,38 @@ export type LoginPayload = {
   mode: 'random' | 'specific';
   email?: string;
   unique_name?: string;
+  expires_in?: number;
 };
 
 export type LoginResponse = {
   login_url: string;
+  warning?: string;
 };
+
+export interface AdminRequestBase {
+  admin_password: string;
+}
+
+export interface AdminLoginPayload extends LoginPayload, AdminRequestBase {}
 
 export type AdminAddPayload = {
   email: string;
   sk: string;
-  admin_password: string;
-};
+} & AdminRequestBase;
 
 export type AdminUpdatePayload = {
   email: string;
   new_email?: string;
   new_sk?: string;
-  admin_password: string;
-};
+} & AdminRequestBase;
 
 export type AdminDeletePayload = {
   email: string;
-  admin_password: string;
-};
+} & AdminRequestBase;
 
 export type AdminBatchPayload = {
   actions: AdminBatchAction[];
-  admin_password: string;
-};
+} & AdminRequestBase;
 
 export type AdminApiResponse = {
   message: string;

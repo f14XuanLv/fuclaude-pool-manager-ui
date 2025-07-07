@@ -1,7 +1,7 @@
 {
   "name": "fuclaude-pool-manager-ui",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.52.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   }
