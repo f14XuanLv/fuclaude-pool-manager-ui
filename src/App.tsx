@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { WorkerUrlProvider, WorkerUrlContext } from './contexts/WorkerUrlContext';
-import { ToastProvider, ToastContext } from './contexts/ToastContext';
+import { ToastProvider } from './contexts/ToastContext';
+import { AuthProvider } from './contexts/AuthContext';
 import UserView from './views/UserView';
 import AdminView from './views/AdminView';
 import ConfigPanel from './components/ConfigPanel';
@@ -96,7 +97,9 @@ const App: React.FC = () => {
   return (
     <WorkerUrlProvider>
       <ToastProvider>
-        <AppContent />
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
       </ToastProvider>
     </WorkerUrlProvider>
   );
