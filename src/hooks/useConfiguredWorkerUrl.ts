@@ -7,18 +7,12 @@ const useConfiguredWorkerUrl = () => {
   const [determinedInitialUrl, setDeterminedInitialUrl] = useState<string>(EXAMPLE_WORKER_URL);
 
   useEffect(() => {
-    // --- DEBUGGING START ---
-    console.log(
-      'VITE_WORKER_URL from import.meta.env:',
-      import.meta.env.VITE_WORKER_URL
-    );
-    // --- DEBUGGING END ---
-
     let urlToUse = EXAMPLE_WORKER_URL;
 
     // 1. Check localStorage (user override)
     const storedUrl = localStorage.getItem('workerUrl');
-    if (storedUrl) {
+    // Only use storedUrl if it's not null and not the placeholder example URL
+    if (storedUrl && storedUrl !== EXAMPLE_WORKER_URL) {
       urlToUse = storedUrl;
       setDeterminedInitialUrl(urlToUse);
       return;
