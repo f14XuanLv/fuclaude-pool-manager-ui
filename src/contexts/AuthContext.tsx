@@ -51,9 +51,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             return false;
         }
         try {
-            const response = await fetch(`${workerUrlCtx.workerUrl.replace(/\/$/, '')}/api/admin/list?admin_password=${encodeURIComponent(passwordToTry)}`, {
-                method: 'GET',
+            const response = await fetch(`${workerUrlCtx.workerUrl.replace(/\/$/, '')}/api/admin/list`, {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ admin_password: passwordToTry }),
             });
             if (!response.ok) {
                 const errorData = await response.json();
