@@ -5,6 +5,7 @@ import useConfiguredWorkerUrl from '../hooks/useConfiguredWorkerUrl';
 interface WorkerUrlContextType {
   workerUrl: string | null; // Allow null
   setWorkerUrl: (url: string) => void;
+  resetWorkerUrl: () => void;
   exampleWorkerUrl: string;
 }
 
@@ -26,8 +27,13 @@ export const WorkerUrlProvider: React.FC<{ children: ReactNode }> = ({ children 
     setCurrentWorkerUrl(urlToSet);
   };
 
+  const handleResetWorkerUrl = () => {
+    localStorage.removeItem('workerUrl');
+    window.location.reload();
+  };
+
   return (
-    <WorkerUrlContext.Provider value={{ workerUrl: currentWorkerUrl, setWorkerUrl: handleSetWorkerUrl, exampleWorkerUrl }}>
+    <WorkerUrlContext.Provider value={{ workerUrl: currentWorkerUrl, setWorkerUrl: handleSetWorkerUrl, resetWorkerUrl: handleResetWorkerUrl, exampleWorkerUrl }}>
       {children}
     </WorkerUrlContext.Provider>
   );

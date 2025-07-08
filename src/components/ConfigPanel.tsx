@@ -15,16 +15,16 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ onClose }) => {
     throw new Error('ConfigPanel must be used within WorkerUrlProvider and ToastProvider');
   }
 
-  const { workerUrl, setWorkerUrl, exampleWorkerUrl } = workerUrlCtx;
+  const { workerUrl, setWorkerUrl, resetWorkerUrl, exampleWorkerUrl } = workerUrlCtx;
   const { showToast } = toastCtx;
-  const [tempUrl, setTempUrl] = useState(workerUrl);
+  const [tempUrl, setTempUrl] = useState(workerUrl || '');
 
   useEffect(() => {
-    setTempUrl(workerUrl); 
+    setTempUrl(workerUrl || '');
   }, [workerUrl]);
 
   const handleSave = () => {
-    if (tempUrl.trim() === '') {
+    if (!tempUrl || tempUrl.trim() === '') {
       showToast('Worker URL 不能为空', 'error');
       return;
     }
@@ -32,7 +32,7 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ onClose }) => {
       showToast('Worker URL 必须以 http:// 或 https:// 开头', 'error');
       return;
     }
-    setWorkerUrl(tempUrl); 
+    setWorkerUrl(tempUrl);
     showToast('Worker URL 已保存!', 'success');
     onClose();
   };
@@ -60,6 +60,9 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ onClose }) => {
       <div className="config-panel-actions">
         <button onClick={handleSave}>
           保存URL
+        </button>
+        <button onClick={resetWorkerUrl} className="secondary">
+          恢复默认
         </button>
         <button onClick={onClose} className="secondary">关闭</button>
       </div>
