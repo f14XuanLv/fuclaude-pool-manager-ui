@@ -3,7 +3,7 @@ import { ToastMessage as ToastMessageType } from '../types'; // Renamed to avoid
 import Toast from '../components/Toast';
 
 interface ToastContextType {
-  showToast: (message: string, type: 'success' | 'error') => void;
+  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
 export const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -11,7 +11,7 @@ export const ToastContext = createContext<ToastContextType | undefined>(undefine
 export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [toast, setToast] = useState<ToastMessageType | null>(null);
 
-  const showToast = useCallback((message: string, type: 'success' | 'error') => {
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info') => {
     setToast({ id: Date.now(), message, type });
     setTimeout(() => setToast(null), 3000);
   }, []);

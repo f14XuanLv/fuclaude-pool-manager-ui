@@ -12,6 +12,7 @@
     --input-focus-border-color: var(--primary-color); /* Orange for focused inputs */
     --error-color: #D32F2F; /* Softer Red */
     --success-color: #388E3C; /* Softer Green */
+    --info-color: #0288D1; /* Softer Blue */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
     /* Derived or specific element colors */
@@ -420,6 +421,10 @@ th {
     background-color: var(--error-color);
 }
 
+.toast-info {
+    background-color: var(--info-color);
+}
+
 .refresh-button {
     font-size: 0.9rem;
     padding: 5px 10px;
@@ -551,6 +556,13 @@ th {
 .account-table-row .action-buttons button {
     padding: 5px 10px;
     font-size: 0.85rem;
+}
+
+.account-table-row .action-buttons button.cancel {
+    background-color: #757575; /* Grey for cancel */
+}
+.account-table-row .action-buttons button.cancel:hover {
+    background-color: #616161; /* Darker Grey */
 }
 
 .add-new-row {

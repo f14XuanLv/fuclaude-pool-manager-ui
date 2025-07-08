@@ -20,7 +20,7 @@ export interface AdminBatchResultItem {
 export type ToastMessage = {
   id: number;
   message: string;
-  type: 'success' | 'error';
+  type: 'success' | 'error' | 'info';
 };
 
 export type LoginPayload = {

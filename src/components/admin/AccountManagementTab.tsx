@@ -36,18 +36,48 @@ const AccountManagementTab: React.FC = () => {
     }, [accountList, searchTerm]);
 
     const handleEdit = (item: EmailSkMapEntry) => {
-        setEditingRow({ ...editingRow, [item.email]: { email: item.email, sk: item.sk_preview } });
+        const currentlyEditingEmail = Object.keys(editingRow)[0];
+        if (currentlyEditingEmail && currentlyEditingEmail !== item.email) {
+            const shouldSave = window.confirm(`'${currentlyEditingEmail}' 正在被编辑。您想保存更改吗？\n\n点击 "确定" 保存并切换。\n点击 "取消" 放弃更改并切换。`);
+            if (shouldSave) {
+                handleSave(currentlyEditingEmail);
+            }
+        }
+        setEditingRow({ [item.email]: { email: item.email, sk: item.sk_preview } });
+    };
+
+    const handleCancel = () => {
+        setEditingRow({});
     };
 
     const handleSave = async (originalEmail: string) => {
         if (!adminPassword || !toastCtx) return;
         const editedAccount = editingRow[originalEmail];
-        const payload: AdminUpdatePayload = { 
-            email: originalEmail, 
-            new_email: editedAccount.email !== originalEmail ? editedAccount.email : undefined,
-            new_sk: editedAccount.sk, // Always send SK for update
-            admin_password: adminPassword 
+        if (!editedAccount) return;
+
+        const originalItem = accountList?.find(acc => acc.email === originalEmail);
+        const isEmailChanged = editedAccount.email !== originalEmail;
+        const isSkChanged = originalItem ? editedAccount.sk !== originalItem.sk_preview : true;
+
+        if (!isEmailChanged && !isSkChanged) {
+            toastCtx.showToast('没有检测到任何更改。', 'info');
+            setEditingRow({});
+            return;
+        }
+
+        const payload: AdminUpdatePayload = {
+            email: originalEmail,
+            admin_password: adminPassword,
+            ...(isEmailChanged && { new_email: editedAccount.email }),
+            ...(isSkChanged && { new_sk: editedAccount.sk }),
         };
+        
+        if (!payload.new_email && !payload.new_sk) {
+            toastCtx.showToast('没有更改，已取消操作。', 'info');
+            setEditingRow({});
+            return;
+        }
+
         try {
             await updateApi(API_PATHS.ADMIN_UPDATE, 'POST', payload);
             toastCtx.showToast('更新成功!', 'success');
@@ -164,7 +194,10 @@ const AccountManagementTab: React.FC = () => {
                         />
                         <div className="action-buttons">
                             {editingRow[item.email] ? (
-                                <button onClick={() => handleSave(item.email)}>保存</button>
+                                <>
+                                    <button onClick={() => handleSave(item.email)}>保存</button>
+                                    <button onClick={handleCancel} className="cancel">取消</button>
+                                </>
                             ) : (
                                 <button onClick={() => handleEdit(item)}>编辑</button>
                             )}
