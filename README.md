@@ -3,7 +3,7 @@
 <div align="center">
 
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.2-blue?style=for-the-badge)](https://github.com/f14XuanLv/fuclaude-pool-manager-ui)
+[![Version](https://img.shields.io/badge/Version-0.1.3-blue?style=for-the-badge)](https://github.com/f14XuanLv/fuclaude-pool-manager-ui)
 
 </div>
 
