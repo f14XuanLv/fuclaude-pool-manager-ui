@@ -44,6 +44,20 @@ Use the following template for the `VITE_WORKER_URL` value: `https://<your-worke
 *   **User Feedback:** Loading indicators and toast notifications for API interactions.
 *   **Theme:** Light, creamy-white theme with orange accents.
 
+## Preview
+
+### Service Configuration Panel
+![Service Configuration Panel](docs/assets/service-configuration-panel.png)
+
+### User Interface
+![User Interface](docs/assets/user-interface.png)
+![Session Isolation Input](docs/assets/session-isolation-input.png)
+
+### Admin Backend
+![Admin Login](docs/assets/admin-login.png)
+![Account Management Panel](docs/assets/account-management-panel.png)
+![Batch Add Panel](docs/assets/batch-add-panel.png)
+
 ## Prerequisites
 
 *   A modern web browser.
@@ -128,7 +142,7 @@ The application determines the `WORKER_URL` in the following order of precedence
     *   Access the application by navigating to its root URL.
     *   Use the "Random Login" button or select a specific email account.
 *   **Admin View:**
-    *   Navigate to the `/admin` path of your frontend's URL.
+    *   Navigate to the `/admin` path of your frontend's URL. **For example, if your site is `https://example.com`, the admin panel is at `https://example.com/admin`**.
     *   Enter your admin password. The admin password for API calls is now included by each admin action component directly in the request payload.
 
 ## Project Structure (Key Files)

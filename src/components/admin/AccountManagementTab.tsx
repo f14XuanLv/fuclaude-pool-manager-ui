@@ -7,7 +7,7 @@ import { API_PATHS } from '../../utils/apiConstants';
 import LoadingIndicator from '../LoadingIndicator';
 
 const AccountManagementTab: React.FC = () => {
-    const { callApi: fetchList, data: accountList, isLoading: listLoading, error: listError } = useApi<null, EmailSkMapEntry[]>();
+    const { callApi: fetchList, data: accountList, isLoading: listLoading, error: listError } = useApi<{ admin_password: string }, EmailSkMapEntry[]>();
     const { callApi: addApi, isLoading: addLoading } = useApi<AdminAddPayload, AdminApiResponse>();
     const { callApi: updateApi, isLoading: updateLoading } = useApi<AdminUpdatePayload, AdminApiResponse>();
     const { callApi: batchDeleteApi, isLoading: deleteLoading } = useApi<AdminBatchPayload, AdminBatchApiResponse>();
@@ -22,8 +22,7 @@ const AccountManagementTab: React.FC = () => {
 
     const fetchAccounts = () => {
         if (adminPassword) {
-            const urlWithAuth = `${API_PATHS.ADMIN_LIST}?admin_password=${encodeURIComponent(adminPassword)}`;
-            fetchList(urlWithAuth, 'GET');
+            fetchList(API_PATHS.ADMIN_LIST, 'POST', { admin_password: adminPassword });
         }
     };
 
@@ -33,7 +32,7 @@ const AccountManagementTab: React.FC = () => {
 
     const filteredList = useMemo(() => {
         if (!accountList) return [];
-        return accountList.filter(item => item.email.toLowerCase().includes(searchTerm.toLowerCase()));
+        return accountList.filter((item: EmailSkMapEntry) => item.email.toLowerCase().includes(searchTerm.toLowerCase()));
     }, [accountList, searchTerm]);
 
     const handleEdit = (item: EmailSkMapEntry) => {
@@ -80,7 +79,7 @@ const AccountManagementTab: React.FC = () => {
         if (!window.confirm(`确定要删除选中的 ${selectedEmails.size} 个账户吗? 此操作无法撤销。`)) return;
         if (!adminPassword || !toastCtx) return;
 
-        const actions: AdminBatchAction[] = Array.from(selectedEmails).map(email => ({ action: 'delete', email }));
+        const actions: AdminBatchAction[] = Array.from(selectedEmails).map(email => ({ action: 'delete', email: email as string }));
         const payload: AdminBatchPayload = { actions, admin_password: adminPassword };
 
         try {
@@ -92,7 +91,7 @@ const AccountManagementTab: React.FC = () => {
     };
     
     const handleSelectionChange = (email: string, isSelected: boolean) => {
-        setSelectedEmails(prev => {
+        setSelectedEmails((prev: Set<string>) => {
             const newSet = new Set(prev);
             if (isSelected) newSet.add(email);
             else newSet.delete(email);
@@ -102,15 +101,19 @@ const AccountManagementTab: React.FC = () => {
 
     const handleSelectAll = () => {
         if (selectedEmails.size === filteredList.length) setSelectedEmails(new Set());
-        else setSelectedEmails(new Set(filteredList.map(item => item.email)));
+        else setSelectedEmails(new Set(filteredList.map((item: EmailSkMapEntry) => item.email)));
     };
 
     const handleSelectInvert = () => {
         const currentSelection = new Set(selectedEmails);
-        const allVisibleEmails = new Set(filteredList.map(item => item.email));
+        const allVisibleEmails = new Set(filteredList.map((item: EmailSkMapEntry) => item.email));
         allVisibleEmails.forEach(email => {
-            if (currentSelection.has(email)) currentSelection.delete(email);
-            else currentSelection.add(email);
+            const emailStr = email as string;
+            if (currentSelection.has(emailStr)) {
+                currentSelection.delete(emailStr);
+            } else {
+                currentSelection.add(emailStr);
+            }
         });
         setSelectedEmails(currentSelection);
     };
@@ -124,7 +127,7 @@ const AccountManagementTab: React.FC = () => {
                     type="text"
                     placeholder="按邮箱搜索..."
                     value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                     className="search-input"
                 />
                 <button onClick={handleSelectAll}>{selectedEmails.size === filteredList.length && filteredList.length > 0 ? '全不选' : '全选'}</button>
@@ -144,20 +147,20 @@ const AccountManagementTab: React.FC = () => {
                     <span>Session Key (SK)</span>
                     <span>Actions</span>
                 </div>
-                {filteredList.map(item => (
+                {filteredList.map((item: EmailSkMapEntry) => (
                     <div key={item.email} className="account-table-row">
-                        <input type="checkbox" checked={selectedEmails.has(item.email)} onChange={e => handleSelectionChange(item.email, e.target.checked)} />
-                        <input 
-                            type="text" 
-                            value={editingRow[item.email]?.email ?? item.email} 
+                        <input type="checkbox" checked={selectedEmails.has(item.email)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSelectionChange(item.email, e.target.checked)} />
+                        <input
+                            type="text"
+                            value={editingRow[item.email]?.email ?? item.email}
                             disabled={!editingRow[item.email]}
-                            onChange={(e) => setEditingRow({...editingRow, [item.email]: {...editingRow[item.email], email: e.target.value}})}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditingRow({...editingRow, [item.email]: {...editingRow[item.email], email: e.target.value}})}
                         />
-                        <input 
-                            type="text" 
-                            value={editingRow[item.email]?.sk ?? item.sk_preview} 
+                        <input
+                            type="text"
+                            value={editingRow[item.email]?.sk ?? item.sk_preview}
                             disabled={!editingRow[item.email]}
-                            onChange={(e) => setEditingRow({...editingRow, [item.email]: {...editingRow[item.email], sk: e.target.value}})}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditingRow({...editingRow, [item.email]: {...editingRow[item.email], sk: e.target.value}})}
                         />
                         <div className="action-buttons">
                             {editingRow[item.email] ? (
@@ -174,13 +177,13 @@ const AccountManagementTab: React.FC = () => {
                         type="text" 
                         placeholder="new-user@example.com" 
                         value={newAccount.email}
-                        onChange={(e) => setNewAccount({...newAccount, email: e.target.value})}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewAccount({...newAccount, email: e.target.value})}
                     />
                     <input 
                         type="text" 
                         placeholder="sk-ant-session-..."
                         value={newAccount.sk}
-                        onChange={(e) => setNewAccount({...newAccount, sk: e.target.value})}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewAccount({...newAccount, sk: e.target.value})}
                     />
                     <div className="action-buttons">
                         <button onClick={handleAdd} disabled={!newAccount.email || !newAccount.sk}>+</button>

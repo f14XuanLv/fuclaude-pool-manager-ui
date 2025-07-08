@@ -44,6 +44,20 @@
 *   **用户反馈:** 为 API 交互提供加载指示器和即时通知 (Toast)。
 *   **主题:** 浅色、奶白调主题，带有橙色点缀。
 
+## 效果预览
+
+### 服务配置面板
+![服务配置面板](docs/assets/service-configuration-panel.png)
+
+### 用户界面
+![用户界面](docs/assets/user-interface.png)
+![会话隔离标识输入窗口](docs/assets/session-isolation-input.png)
+
+### 管理后台
+![管理员登录](docs/assets/admin-login.png)
+![账户管理面板](docs/assets/account-management-panel.png)
+![批量添加面板](docs/assets/batch-add-panel.png)
+
 ## 先决条件
 
 *   一个现代的网页浏览器。
@@ -128,7 +142,7 @@
     *   通过访问其根 URL 来访问应用程序。
     *   使用“随机登录”按钮或从卡片中选择特定的电子邮件账户。
 *   **管理员视图:**
-    *   导航到前端 URL 的 `/admin` 路径。
+    *   导航到前端 URL 的 `/admin` 路径。**例如，如果您的网站是 `https://example.com`，那么管理后台的地址就是 `https://example.com/admin`**。
     *   输入您的管理员密码。用于 API 调用的管理员密码现在由各个管理员操作组件直接包含在请求负载中。
 
 ## 项目结构 (关键文件)
