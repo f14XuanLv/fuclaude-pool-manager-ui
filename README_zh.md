@@ -15,6 +15,8 @@
 
 本项目使用 React 和 TypeScript 构建，结构适用于 [Vite](https://vitejs.dev/)作为构建工具。
 
+如果您觉得这个项目对您有帮助，请在 GitHub 上给它一个 star！⭐
+
 ## 一键部署
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ff14XuanLv%2Ffuclaude-pool-manager-ui&env=VITE_WORKER_URL&envDescription=Enter%20your%20FuClaude%20Pool%20Manager%20Worker%20URL%20(e.g.,%20https%3A%2F%2Fname.account.workers.dev)&project-name=fuclaude-pool-ui&repository-name=fuclaude-pool-manager-ui)
